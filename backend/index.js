@@ -29,6 +29,14 @@ app.use((err, _req, res, _next) => {
     return;
   }
 
+  if (err.sqlMessage != undefined) {
+    res.status(500).json({
+      id: errorConsts.DatabaseError,
+      type: "error",
+      message: err.sqlMessage,
+    });
+  }
+
   res.status(400).json({
     id: errorConsts.UnknownError,
     type: "error",

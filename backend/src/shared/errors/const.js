@@ -10,6 +10,8 @@ const errorIds = {
   EmptyField: 7,
   PasswordCompareError: 8,
   DatabaseManagerNotFound: 9,
+  AudienceNotFound: 10,
+  DirectorNotFound: 11,
 };
 
 export default errorIds;
