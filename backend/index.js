@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import connectToDb from "./databaseConnection.js";
 import { createTables } from "./initialDbSetup.js";
+import router from "./src/routes.js";
+import errorConsts from "./src/shared/errors/const.js";
+import Error from "./src/shared/errors/Error.js";
 
 const app = express();
 
@@ -14,6 +17,8 @@ connectToDb();
 await createTables();
 
 const baseUrl = "/api/v1";
+
+app.use(baseUrl, router);
 
 //global error handler
 app.use((err, _req, res, _next) => {

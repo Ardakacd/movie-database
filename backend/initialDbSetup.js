@@ -118,17 +118,21 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
 }
 
 export async function isAllTableExists() {
-  const tables = await query(
-    `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
-  );
-  console.log(tables);
-  if (tables.length == 14) {
-    console.log("There are 14 tables.");
-    const showTriggers = await query("SHOW TRIGGERS FROM movie_db;");
-    console.log(showTriggers);
-    return true;
+  try {
+    const tables = await query(
+      `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
+    );
+    console.log(tables);
+    if (tables.length == 14) {
+      console.log("There are 14 tables.");
+      const showTriggers = await query("SHOW TRIGGERS FROM movie_db;");
+      console.log(showTriggers);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
   }
-  return false;
 }
 
 export async function createTriggers() {
@@ -233,7 +237,10 @@ END;";
     slot_availability +
     bought_availability;
 
-  const res = await query(queryStr);
-
-  return res;
+  try {
+    const res = await query(queryStr);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 }
