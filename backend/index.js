@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import connectToDb from "./databaseConnection.js";
+import { createTables } from "./initialDbSetup.js";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(bodyParser.json({ limit: "2mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "2mb" }));
 
 connectToDb();
+await createTables();
 
 const baseUrl = "/api/v1";
 
