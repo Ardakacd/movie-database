@@ -1,5 +1,5 @@
 import { query } from "../../../databaseConnection.js";
-import EmptyFieldError from "../../shared/errors/EmptyField/EmptyField.js";
+import EmptyFieldError from "../../shared/errors/EmptyField/EmptyField.js"; 
 import AudienceNotFound from "../../shared/errors/NotFound/AudienceNotFound.js";
 import DatabaseManagerNotFound from "../../shared/errors/NotFound/DatabaseManagerNotFound.js";
 import DirectorNotFound from "../../shared/errors/NotFound/DirectorNotFound.js";

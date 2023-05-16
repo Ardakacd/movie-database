@@ -122,11 +122,11 @@ export async function isAllTableExists() {
     const tables = await query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
     );
-    console.log(tables);
+    //console.log(tables);
     if (tables.length == 14) {
       console.log("There are 14 tables.");
-      const showTriggers = await query("SHOW TRIGGERS FROM movie_db;");
-      console.log(showTriggers);
+      //const showTriggers = await query("SHOW TRIGGERS FROM movie_db;");
+      //console.log(showTriggers);
       return true;
     }
     return false;
@@ -189,9 +189,9 @@ END;";
    DECLARE is_slot_taken INT;\
    DECLARE curr_slot INT;\
    SELECT duration INTO movie_duration FROM Movies WHERE movie_id = new.movie_id;\
-   SELECT COUNT(*) INTO is_slot_taken FROM Taken_Slots AS S WHERE new.time_slot <= S.slot AND (new.time_slot+movie_duration-1) >= S.slot AND S.theatre_id = new.theatre_id;\
+   SELECT COUNT(*) INTO is_slot_taken FROM Taken_Slots AS S WHERE new.time_slot <= S.slot AND (new.time_slot+movie_duration-1) >= S.slot AND S.theatre_id = new.theatre_id AND S.date = new.date;\
    IF is_slot_taken > 0 THEN\
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The required slots are not empty';\
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The required slots are not empty.';\
    END IF;\
     IF new.time_slot + movie_duration > 5 THEN\
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Time slot exceeds 4';\
