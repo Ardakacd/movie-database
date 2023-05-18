@@ -109,8 +109,8 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
       const tableRes = await query(queryStr);
       const triggerRes = await createTriggers();
 
-      console.log(tableRes);
-      console.log(triggerRes);
+      //console.log(tableRes);
+      //console.log(triggerRes);
     } catch (error) {
       console.log(error);
     }
@@ -148,6 +148,21 @@ export async function createTriggers() {
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'You can store at most 4 database managers.';\
     END IF;\
 END;";
+  const is_eligible_to_add_director =
+    "CREATE TRIGGER Is_Eligible_To_Add_Director \
+  BEFORE INSERT \
+ ON Directors\
+ FOR EACH ROW\
+ BEGIN\
+    DECLARE is_exist INT;\
+    SELECT COUNT(*) INTO is_exist FROM Audience WHERE username = new.username;\
+    IF is_exist > 0 THEN\
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'There is an audience with this username';\
+    END IF;\
+     INSERT INTO Audience (username,password,name,surname)\
+     values\
+     (new.username,new.password,new.name,new.surname);\
+ END;";
 
   const is_eligible_to_rate =
     "CREATE TRIGGER Is_Eligible_To_Rate \
@@ -235,9 +250,10 @@ END;";
     is_eligible_to_rate +
     change_average_rating +
     slot_availability +
-    bought_availability;
-
+    bought_availability +
+    is_eligible_to_add_director;
   try {
+    console.log(queryStr);
     const res = await query(queryStr);
     return res;
   } catch (error) {

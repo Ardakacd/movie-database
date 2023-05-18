@@ -33,9 +33,62 @@ export async function login(req, res, next) {
   }
 }
 
+export async function addDirector(req, res, next) {
+  try {
+    const { username, password, name, surname, nationality, platformId } =
+      req.body;
+
+    if (!(username && password && name && surname && nationality)) {
+      next(new EmptyFieldError());
+      return;
+    }
+
+    const queryString = `INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES(?,?,?,?,?,?);`;
+
+    const queryResponse = await query(queryString, [
+      username,
+      password,
+      name,
+      surname,
+      nationality,
+      platformId,
+    ]);
+
+    res.status(201).json(successfulResponse("Director is added successfully"));
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}
+
+export async function addAudience(req, res, next) {
+  try {
+    const { username, password, name, surname } = req.body;
+
+    if (!(username && password && name && surname)) {
+      next(new EmptyFieldError());
+      return;
+    }
+
+    const queryString = `INSERT INTO Audience(username,password,name,surname) VALUES(?,?,?,?);`;
+
+    const queryResponse = await query(queryString, [
+      username,
+      password,
+      name,
+      surname,
+    ]);
+
+    res.status(201).json(successfulResponse("Audience is added successfully"));
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}
+
 export async function deleteUser(req, res, next) {
   try {
-    const { username } = req.body;
+    const { username } = req.params;
 
     if (!username) {
       next(new EmptyFieldError("Please provide a username"));
@@ -108,7 +161,7 @@ export async function viewAllDirectors(req, res, next) {
 
 export async function viewRatings(req, res, next) {
   try {
-    const { username } = req.query;
+    const { username } = req.params;
 
     if (!username) {
       next(new EmptyFieldError("Please provide a username"));
@@ -133,7 +186,7 @@ export async function viewRatings(req, res, next) {
 
 export async function viewDirectorMovies(req, res, next) {
   try {
-    const { username } = req.query;
+    const { username } = req.params;
 
     if (!username) {
       next(new EmptyFieldError("Please provide a username"));
@@ -160,7 +213,7 @@ export async function viewDirectorMovies(req, res, next) {
 
 export async function viewMovieDetail(req, res, next) {
   try {
-    const { movieId } = req.query;
+    const { movieId } = req.params;
 
     if (!movieId) {
       next(new EmptyFieldError("Please provide a movie id"));
