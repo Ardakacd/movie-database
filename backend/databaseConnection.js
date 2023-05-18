@@ -5,7 +5,6 @@ export const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "newpass",
-  database: "movie_db",
   multipleStatements: true,
 });
 

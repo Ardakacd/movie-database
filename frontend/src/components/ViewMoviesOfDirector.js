@@ -60,35 +60,34 @@ const ViewMoviesOfDirector = () => {
         >
           View
         </Button>
-        {movies === null ? (
-          <CircularProgress></CircularProgress>
-        ) : movies.length === 0 ? (
-          <p style={{ color: "purple" }}>There is no movie!</p>
-        ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Movie Id </TableCell>
-                  <TableCell>Movie Name</TableCell>
-                  <TableCell>Theatre Id</TableCell>
-                  <TableCell>Time Slot</TableCell>
-                  <TableCell>Predecessors List</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {movies.map((row) => (
-                  <TableRow key={row.movie_id}>
-                    <TableCell>{row.movie_name}</TableCell>
-                    <TableCell>{row.theatre_id}</TableCell>
-                    <TableCell>{row.time_slot}</TableCell>
-                    <TableCell>{row.predecessors_list}</TableCell>
+        {Array.isArray(movies) &&
+          (movies.length === 0 ? (
+            <p style={{ color: "purple" }}>There is no movie!</p>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Movie Id </TableCell>
+                    <TableCell>Movie Name</TableCell>
+                    <TableCell>Theatre Id</TableCell>
+                    <TableCell>Time Slot</TableCell>
+                    <TableCell>Predecessors List</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+                </TableHead>
+                <TableBody>
+                  {movies.map((row) => (
+                    <TableRow key={row.movie_id}>
+                      <TableCell>{row.movie_name}</TableCell>
+                      <TableCell>{row.theatre_id}</TableCell>
+                      <TableCell>{row.time_slot}</TableCell>
+                      <TableCell>{row.predecessors_list}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ))}
       </div>
     </div>
   );

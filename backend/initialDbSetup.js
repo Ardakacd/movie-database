@@ -1,7 +1,18 @@
 import { connection, query } from "./databaseConnection.js";
 
+export async function createDatabase() {
+  try {
+    const queryStr = "CREATE DATABASE movie_db;USE movie_db";
+    const response = await query(queryStr);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function createTables() {
   if (await isAllTableExists()) {
+    const queryStr = "USE movie_db";
+    const response = await query(queryStr);
     return;
   } else {
     const databaseManagers =
@@ -108,6 +119,7 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
     try {
       const tableRes = await query(queryStr);
       const triggerRes = await createTriggers();
+      const seed = await seedData();
 
       //console.log(tableRes);
       //console.log(triggerRes);
@@ -118,7 +130,6 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
 }
 
 export async function isAllTableExists() {
-  createTriggers();
   try {
     const tables = await query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
@@ -130,7 +141,32 @@ export async function isAllTableExists() {
       //console.log(showTriggers);
       return true;
     }
+    await createDatabase();
     return false;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function seedData() {
+  try {
+    let queryText =
+      "INSERT INTO Database_Managers(username,password) VALUES('manager1','managerpass1');\
+INSERT INTO Database_Managers(username,password) VALUES('manager2','managerpass2');\
+INSERT INTO Database_Managers(username,password) VALUES('manager35','managerpass35');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80001,'Animation');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80002,'Comedy');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80003,'Adventure');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80004,'Real Story');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80005,'Thriller');\
+INSERT INTO Genres(genre_id,genre_name) VALUES(80006,'Drama');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10130 ,'IMDB');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10131 ,'Letterboxd');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10132 ,'FilmIzle');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10133 ,'Filmora');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10134 ,'BollywoodMDB');";
+    const response = await query(queryText);
+    console.log(response);
   } catch (error) {
     console.log(error);
   }

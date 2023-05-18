@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
   TextField,
+  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -39,9 +40,6 @@ const ViewAvailableTheatres = () => {
       setError(error.response.data.message);
     }
   };
-  useEffect(() => {
-    madeRequest();
-  }, []);
 
   return (
     <div className="outer-container">
@@ -65,33 +63,39 @@ const ViewAvailableTheatres = () => {
           value={slots}
           onChange={(event) => setSlots(event.target.value)}
         />
+        <Button
+          variant="contained"
+          style={{ marginTop: "20px" }}
+          onClick={madeRequest}
+        >
+          View
+        </Button>
 
-        {theatres === null ? (
-          <CircularProgress></CircularProgress>
-        ) : theatres.length === 0 ? (
-          <p style={{ color: "purple" }}>There is no available theatre!</p>
-        ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Theatre Id </TableCell>
-                  <TableCell>Theatre District</TableCell>
-                  <TableCell>Theatre Capacity</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {theatres.map((row) => (
-                  <TableRow key={row.theatre_id}>
-                    <TableCell>{row.theatre_id}</TableCell>
-                    <TableCell>{row.theatre_district}</TableCell>
-                    <TableCell>{row.theatre_capacity}</TableCell>
+        {Array.isArray(theatres) &&
+          (theatres.length === 0 ? (
+            <p style={{ color: "purple" }}>There is no available theatre!</p>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Theatre Id </TableCell>
+                    <TableCell>Theatre District</TableCell>
+                    <TableCell>Theatre Capacity</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+                </TableHead>
+                <TableBody>
+                  {theatres.map((row) => (
+                    <TableRow key={row.theatre_id}>
+                      <TableCell>{row.theatre_id}</TableCell>
+                      <TableCell>{row.theatre_district}</TableCell>
+                      <TableCell>{row.theatre_capacity}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ))}
       </div>
     </div>
   );

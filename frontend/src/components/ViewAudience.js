@@ -60,32 +60,31 @@ const ViewAudience = () => {
         >
           View
         </Button>
-        {audiences === null ? (
-          <CircularProgress></CircularProgress>
-        ) : audiences.length === 0 ? (
-          <p style={{ color: "purple" }}>There is no audience!</p>
-        ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Username </TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell> Surname</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {audiences.map((row) => (
-                  <TableRow key={row.username}>
-                    <TableCell>{row.username}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.surname}</TableCell>
+        {Array.isArray(audiences) &&
+          (audiences.length === 0 ? (
+            <p style={{ color: "purple" }}>There is no audience!</p>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Username </TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell> Surname</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
+                </TableHead>
+                <TableBody>
+                  {audiences.map((row) => (
+                    <TableRow key={row.username}>
+                      <TableCell>{row.username}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.surname}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ))}
       </div>
     </div>
   );
