@@ -118,6 +118,7 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
 }
 
 export async function isAllTableExists() {
+  createTriggers();
   try {
     const tables = await query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
@@ -215,12 +216,16 @@ END;";
     DECLARE theatre_capacity INT;\
     DECLARE current_capacity INT;\
     DECLARE id_of_the_movie INT;\
+    DECLARE date_of_the_movie DATE;\
+    DECLARE slot_of_the_movie INT;\
     SELECT COUNT(*) INTO current_capacity FROM Bought WHERE session_id = new.session_id;\
+    SELECT S.date INTO date_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id;\
+    SELECT S.time_slot INTO slot_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id;\
     SELECT DISTINCT T.theatre_capacity INTO theatre_capacity FROM Bought as B INNER JOIN Movie_Sessions AS S ON B.session_id = S.session_id INNER JOIN \
     Theatres AS T ON T.theatre_id = S.theatre_id;\
     SELECT S.movie_id INTO id_of_the_movie FROM Movie_Sessions AS S WHERE S.session_id = new.session_id;\
     SELECT COUNT(*) INTO nbr_of_not_bought_films FROM (SELECT predecessor_id FROM Predecessor WHERE successor_id = id_of_the_movie AND predecessor_id NOT IN \
-    (SELECT S.movie_id FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = B.session_id WHERE B.username = new.username)\
+    (SELECT S.movie_id FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = B.session_id WHERE B.username = new.username AND (date_of_the_movie > S.date OR (date_of_the_movie = S.date AND slot_of_the_movie > S.time_slot)))\
     ) AS Temp; \
      IF theatre_capacity = current_capacity THEN\
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The capacity is full';\
