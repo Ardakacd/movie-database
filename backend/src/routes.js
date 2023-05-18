@@ -19,13 +19,13 @@ import {
 } from "./audience/controller/audienceController.js";
 
 import {
-   userLogin,
-   viewAvailableTheatres,
-   addPredecessors,
-   viewAudiences,
-   updateMovieName,
-   viewMoviesOfDirector
-  } from "./director/controller/directorController.js";
+  userLogin,
+  viewAvailableTheatres,
+  addPredecessors,
+  viewAudiences,
+  updateMovieName,
+  viewMoviesOfDirector,
+} from "./director/controller/directorController.js";
 
 const db_managers = "/database_managers";
 
@@ -70,11 +70,5 @@ router.post(`${directors}/login`, userLogin);
 router.post(`${directors}/add-predecessors`, addPredecessors);
 
 router.put(`${directors}/update-movie-name`, updateMovieName);
-
-
-
-
-
-
 
 export default router;
