@@ -37,8 +37,8 @@ const ViewRatings = () => {
     <div className="outer-container">
       <div className="inner-list-container">
         <h2 style={{ color: "orange" }}>View All Ratings Of a Audience</h2>
-        {success && !error && <p style={{ color: "green" }}>{success}</p>}
-        {error && !success && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <TextField
           id="username"
           label="Username"

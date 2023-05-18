@@ -21,6 +21,12 @@ import ListMoviesAudience from "./components/ListMoviesAudience";
 import BuyMovieTicket from "./components/BuyMovieTicket";
 import AddAudience from "./components/AddAudience";
 import AddDirector from "./components/AddDirector";
+import ViewAvailableTheatres from "./components/ViewAvailableTheatres";
+import ViewAudience from "./components/ViewAudience";
+import ViewMoviesOfDirector from "./components/ViewMoviesOfDirector";
+import AddPredecessors from "./components/AddPredecessors";
+import UpdateMovieName from "./components/UpdateMovieName";
+import DirectorMain from "./components/DirectorMain";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +92,34 @@ const router = createBrowserRouter([
   {
     path: "db-manager-main",
     element: <DbManagerMain />,
+  },
+  {
+    path: "director-login",
+    element: <DirectorLogin />,
+  },
+  {
+    path: "view-available-theatres",
+    element: <ViewAvailableTheatres />,
+  },
+  {
+    path: "view-audiences",
+    element: <ViewAudience />,
+  },
+  {
+    path: "view-movies-director",
+    element: <ViewMoviesOfDirector />,
+  },
+  {
+    path: "add-predecessor",
+    element: <AddPredecessors />,
+  },
+  {
+    path: "update-movie-name",
+    element: <UpdateMovieName />,
+  },
+  {
+    path: "director-main",
+    element: <DirectorMain />,
   },
 ]);
 

@@ -1,69 +1,68 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
-import { Link } from "react-router-dom";
 import "../index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AudienceLogin = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const AddPredecessors = () => {
+  const [movie_id, setMovieId] = useState("");
+  const [pre_ids, setPreIds] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
   const madeRequest = async () => {
     try {
+      const username = localStorage.getItem("director-username");
+      if (!username) {
+        navigate("/director-login");
+      }
       const response = await axios.post(
-        "http://localhost:3001/api/v1/directors/login",
-        { username, password }
+        "http://localhost:3001/api/v1/directors/add-predecessors",
+        { movie_id, pre_ids }
       );
+      setError("");
       setSuccess(response.data.message);
-      localStorage.setItem("director-username", username);
-      navigate("/director-main");
     } catch (error) {
-      setError(error.response.message);
+      setSuccess("");
+      setError(error.response.data.message);
     }
   };
 
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <h2 style={{ color: "orange" }}>Director Login</h2>
+        <h2 style={{ color: "orange" }}>Add Predecessor</h2>
         {success && <p style={{ color: "green" }}>{success}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
         <TextField
-          id="username"
-          label="Username"
+          id="movie_id"
+          label="Movie Id"
           variant="standard"
           margin="normal"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          value={movie_id}
+          onChange={(event) => setMovieId(event.target.value)}
         />
         <TextField
-          id="password"
-          label="Password"
+          id="pre_id"
+          label="Predecessor Id"
           variant="standard"
           margin="normal"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          value={pre_ids}
+          onChange={(event) => setPreIds(event.target.value)}
         />
+        <p style={{ color: "gray" }}>
+          If you want to add more than one please add like 1,2,3
+        </p>
         <Button
           variant="contained"
           style={{ marginTop: "20px" }}
           onClick={madeRequest}
         >
-          Login
+          Add
         </Button>
-        <Link to="/" style={{ marginTop: "15px" }}>
-          Login as Db Manager
-        </Link>
-        <Link to="/audience-login" style={{ marginTop: "15px" }}>
-          Login as Audience
-        </Link>
       </div>
     </div>
   );
 };
 
-export default AudienceLogin;
+export default AddPredecessors;

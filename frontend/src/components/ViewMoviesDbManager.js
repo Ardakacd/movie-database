@@ -37,8 +37,8 @@ const ViewMoviesDbManager = () => {
     <div className="outer-container">
       <div className="inner-list-container">
         <h2 style={{ color: "orange" }}>View All Movies Of a Director</h2>
-        {success && !error && <p style={{ color: "green" }}>{success}</p>}
-        {error && !success && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <TextField
           id="username"
           label="Username"
