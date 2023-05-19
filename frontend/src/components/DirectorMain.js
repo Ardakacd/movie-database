@@ -27,7 +27,9 @@ const DirectorMain = () => {
         }}
       >
         <h1 style={{ color: "black" }}>Hello Director!</h1>
-        <p onClick={handleLogout}>Logout</p>
+        <p style={{ cursor: "pointer" }} onClick={handleLogout}>
+          Logout
+        </p>
       </div>
 
       <h4 style={{ color: "blue" }}>Functionalities</h4>
