@@ -118,7 +118,6 @@ FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPD
 }
 
 export async function isAllTableExists() {
-  createTriggers();
   try {
     const tables = await query(
       `SELECT table_name FROM information_schema.tables WHERE table_schema = 'movie_db'`
