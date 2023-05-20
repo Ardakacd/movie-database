@@ -1,17 +1,7 @@
 import { connection, query } from "./databaseConnection.js";
 
-export async function createDatabase() {
-  try {
-    const queryStr = "CREATE DATABASE movie_db;USE movie_db";
-    const response = await query(queryStr);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export async function createTables() {
   if (await isAllTableExists()) {
-    const queryStr = "USE movie_db";
     const response = await query(queryStr);
     return;
   } else {
@@ -43,7 +33,7 @@ movie_id INTEGER,\
 movie_name VARCHAR(30) NOT NULL,\
 duration INTEGER NOT NULL,\
 director VARCHAR(30) NOT NULL,\
-average_rating FLOAT CHECK(average_rating BETWEEN 0 AND 5) DEFAULT 0,\
+average_rating FLOAT CHECK(average_rating BETWEEN 0 AND 5),\
 PRIMARY KEY(movie_id),\
 FOREIGN KEY(director) REFERENCES Directors(username) ON DELETE CASCADE ON UPDATE CASCADE);";
     const ratings =
@@ -141,7 +131,6 @@ export async function isAllTableExists() {
       //console.log(showTriggers);
       return true;
     }
-    await createDatabase();
     return false;
   } catch (error) {
     console.log(error);
@@ -203,10 +192,10 @@ END;";
 
   const change_average_rate_when_audience_deleted =
     "CREATE TRIGGER Change_Rating\
-BEFORE DELETE\
-ON Audience\
-FOR EACH ROW\
-BEGIN\
+ BEFORE DELETE\
+ ON Audience\
+ FOR EACH ROW\
+ BEGIN\
 	DECLARE finished INTEGER DEFAULT 0;\
     DECLARE cur_movie_id INTEGER;\
     DECLARE sum_movie_rating FLOAT;\
@@ -231,7 +220,7 @@ BEGIN\
 		END IF;\
 	END LOOP change_rating;\
     CLOSE curs_rating;\
-END;";
+ END;";
 
   const is_eligible_to_rate =
     "CREATE TRIGGER Is_Eligible_To_Rate \

@@ -6,6 +6,7 @@ export const connection = mysql.createConnection({
   user: "root",
   password: "newpass",
   multipleStatements: true,
+  database: "movie_db",
 });
 
 export const query = promisify(connection.query).bind(connection);
