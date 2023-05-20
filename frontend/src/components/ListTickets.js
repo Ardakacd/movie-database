@@ -45,8 +45,8 @@ const ListTickets = () => {
     <div className="outer-container">
       <div className="inner-list-container">
         <h2 style={{ color: "orange" }}>List All Tickets</h2>
-        {success && !error && <p style={{ color: "green" }}>{success}</p>}
-        {error && !success && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         {tickets === null ? (
           <CircularProgress></CircularProgress>

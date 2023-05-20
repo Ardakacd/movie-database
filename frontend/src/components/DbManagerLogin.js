@@ -21,7 +21,8 @@ const DbManagerLogin = () => {
       setSuccess(response.data.message);
       navigate("/db-manager-main");
     } catch (error) {
-      setError(error.response.message);
+      console.log(error);
+      setError(error.response.data.message);
     }
   };
 
@@ -29,8 +30,8 @@ const DbManagerLogin = () => {
     <div className="outer-container">
       <div className="inner-container">
         <h2 style={{ color: "orange" }}>Db Manager Login</h2>
-        {success && !error && <p style={{ color: "green" }}>{success}</p>}
-        {error && !success && <p style={{ color: "red" }}>{error}</p>}
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <TextField
           id="username"
           label="Username"

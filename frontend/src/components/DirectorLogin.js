@@ -24,7 +24,7 @@ const AudienceLogin = () => {
       navigate("/director-main");
     } catch (error) {
       console.log(error);
-      setError(error.response.message);
+      setError(error.response.data.message);
     }
   };
 

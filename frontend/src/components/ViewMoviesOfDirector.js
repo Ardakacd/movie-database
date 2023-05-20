@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import "../index.css";
 import axios from "axios";
@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 
 const ViewMoviesOfDirector = () => {
-  const [username, setUsername] = useState("");
   const [movies, setMovies] = useState(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -38,56 +37,49 @@ const ViewMoviesOfDirector = () => {
     }
   };
 
+  useEffect(() => {
+    madeRequest();
+  }, []);
+
   return (
     <div className="outer-container">
       <div className="inner-list-container">
         <h2 style={{ color: "orange" }}>View Movies Of Director</h2>
         {success && <p style={{ color: "green" }}>{success}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <TextField
-          id="username"
-          label="Username"
-          variant="standard"
-          margin="normal"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
 
-        <Button
-          variant="contained"
-          style={{ marginTop: "20px" }}
-          onClick={madeRequest}
-        >
-          View
-        </Button>
-        {Array.isArray(movies) &&
-          (movies.length === 0 ? (
-            <p style={{ color: "purple" }}>There is no movie!</p>
-          ) : (
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Movie Id </TableCell>
-                    <TableCell>Movie Name</TableCell>
-                    <TableCell>Theatre Id</TableCell>
-                    <TableCell>Time Slot</TableCell>
-                    <TableCell>Predecessors List</TableCell>
+        {movies === null ? (
+          <CircularProgress></CircularProgress>
+        ) : movies.length === 0 ? (
+          <p style={{ color: "purple" }}>
+            There is no movie that this director directs
+          </p>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Movie Id </TableCell>
+                  <TableCell>Movie Name</TableCell>
+                  <TableCell>Theatre Id</TableCell>
+                  <TableCell>Time Slot</TableCell>
+                  <TableCell>Predecessors List</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {movies.map((row) => (
+                  <TableRow key={row.movie_id}>
+                    <TableCell>{row.movie_id}</TableCell>
+                    <TableCell>{row.movie_name}</TableCell>
+                    <TableCell>{row.theatre_id}</TableCell>
+                    <TableCell>{row.time_slot}</TableCell>
+                    <TableCell>{row.predecessors_list}</TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {movies.map((row) => (
-                    <TableRow key={row.movie_id}>
-                      <TableCell>{row.movie_name}</TableCell>
-                      <TableCell>{row.theatre_id}</TableCell>
-                      <TableCell>{row.time_slot}</TableCell>
-                      <TableCell>{row.predecessors_list}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ))}
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
     </div>
   );

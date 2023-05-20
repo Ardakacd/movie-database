@@ -55,6 +55,7 @@ const ViewAvailableTheatres = () => {
           value={date}
           onChange={(event) => setDate(event.target.value)}
         />
+        <p style={{ color: "gray" }}>For example 2023-12-31</p>
         <TextField
           id="slot"
           label="Slot"
@@ -63,6 +64,7 @@ const ViewAvailableTheatres = () => {
           value={slots}
           onChange={(event) => setSlots(event.target.value)}
         />
+        <p style={{ color: "gray" }}>Please enter 1,2,3 or 4</p>
         <Button
           variant="contained"
           style={{ marginTop: "20px" }}

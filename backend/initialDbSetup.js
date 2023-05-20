@@ -2,7 +2,6 @@ import { connection, query } from "./databaseConnection.js";
 
 export async function createTables() {
   if (await isAllTableExists()) {
-    const response = await query(queryStr);
     return;
   } else {
     const databaseManagers =
@@ -74,7 +73,7 @@ time_slot ENUM('1','2','3','4') NOT NULL,\
 date DATE,\
 PRIMARY KEY(session_id),\
 FOREIGN KEY(movie_id) REFERENCES Movies(movie_id) ON DELETE CASCADE ON UPDATE CASCADE,\
-FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPDATE CASCADE;";
+FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPDATE CASCADE);";
     const bought =
       "CREATE TABLE Bought(\
 username VARCHAR(30) NOT NULL,\
@@ -293,7 +292,7 @@ END;";
     SELECT S.date INTO date_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id LIMIT 1;\
     SELECT S.time_slot INTO slot_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id LIMIT 1;\
     SELECT DISTINCT T.theatre_capacity INTO theatre_capacity FROM Bought as B INNER JOIN Movie_Sessions AS S ON B.session_id = S.session_id INNER JOIN \
-    Theatres AS T ON T.theatre_id = S.theatre_id;\
+    Theatres AS T ON T.theatre_id = S.theatre_id WHERE B.session_id = new.session_id;\
     SELECT S.movie_id INTO id_of_the_movie FROM Movie_Sessions AS S WHERE S.session_id = new.session_id;\
     SELECT COUNT(*) INTO nbr_of_not_bought_films FROM (SELECT predecessor_id FROM Predecessor WHERE successor_id = id_of_the_movie AND predecessor_id NOT IN \
     (SELECT S.movie_id FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = B.session_id WHERE B.username = new.username AND (date_of_the_movie > S.date OR (date_of_the_movie = S.date AND slot_of_the_movie > S.time_slot)))\

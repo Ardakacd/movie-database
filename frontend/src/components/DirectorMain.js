@@ -46,7 +46,7 @@ const DirectorMain = () => {
         Add Session
       </Link>
       <Link to="/add-predecessor" style={{ marginBottom: "10px" }}>
-        Add predecessor
+        Add Predecessor
       </Link>
       <Link to="/update-movie-name" style={{ marginBottom: "10px" }}>
         Update Movie Name

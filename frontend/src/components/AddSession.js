@@ -10,8 +10,7 @@ const AddSessions = () => {
   const [movie_name, setMovieName] = useState("");
   const [duration, setDuration] = useState("");
   const [genre_list, setGenreList] = useState("");
-  const [platform_id, setPlatformId] = useState("");
-  const [predeccessors, setPredecessors] = useState("");
+  const [predecessors, setPredecessors] = useState("");
   const [theatre_id, setTheatreId] = useState("");
   const [theatre_name, setTheatreName] = useState("");
   const [theatre_capacity, setTheatreCapacity] = useState("");
@@ -28,14 +27,14 @@ const AddSessions = () => {
         navigate("/director-login");
       }
       const response = await axios.post(
-        "http://localhost:3001/api/v1/audience/add-session",
+        "http://localhost:3001/api/v1/directors/add-session",
         {
           session_id,
+          movie_id,
           movie_name,
           duration,
           genre_list,
-          platform_id,
-          predeccessors,
+          predecessors,
           theatre_id,
           theatre_name,
           theatre_district,
@@ -99,22 +98,22 @@ const AddSessions = () => {
           value={genre_list}
           onChange={(event) => setGenreList(event.target.value)}
         />
-        <TextField
-          id="platform_id"
-          label="Platform Id"
-          variant="standard"
-          margin="normal"
-          value={platform_id}
-          onChange={(event) => setPlatformId(event.target.value)}
-        />
+        <p style={{ color: "gray" }}>
+          Please enter like 80001,80002(id of the genres) if you want to add
+          more than one
+        </p>
         <TextField
           id="predeccessors"
           label="Predeccessors"
           variant="standard"
           margin="normal"
-          value={predeccessors}
+          value={predecessors}
           onChange={(event) => setPredecessors(event.target.value)}
         />
+        <p style={{ color: "gray" }}>
+          Please enter like 1,2,3(id of the predecessors) if you want to add
+          more than one
+        </p>
         <TextField
           id="theatre_id"
           label="Theatre Id"
@@ -155,6 +154,7 @@ const AddSessions = () => {
           value={time_slot}
           onChange={(event) => setTimeSlot(event.target.value)}
         />
+        <p style={{ color: "gray" }}>Please enter 1,2,3 or 4</p>
         <TextField
           id="date"
           label="Date"
@@ -163,6 +163,7 @@ const AddSessions = () => {
           value={date}
           onChange={(event) => setDate(event.target.value)}
         />
+        <p style={{ color: "gray" }}>For example 2023-12-31</p>
 
         <Button
           variant="contained"

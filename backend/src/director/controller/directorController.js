@@ -5,6 +5,7 @@ import MovieNotFound from "../../shared/errors/NotFound/MovieNotFound.js";
 import successfulResponse from "../../shared/response/successfulResponse.js";
 import DatabaseManagerNotFound from "../../shared/errors/NotFound/DatabaseManagerNotFound.js";
 import AudienceNotFound from "../../shared/errors/NotFound/AudienceNotFound.js";
+import BadRequest from "../../shared/errors/BadRequest/BadRequest.js";
 
 export async function userLogin(req, res, next) {
   try {
@@ -99,51 +100,49 @@ export async function addPredecessors(req, res, next) {
 
 export async function addSession(req, res, next) {
   try {
-    const { theatre_id,
-            theatre_name,
-            theatre_district,
-            theatre_capacity,
-              movie_id,
-              movie_name,
-              duration,
-              username,
-              genre_list,
-              predecessors,
-                session_id,
-                time_slot,
-                date } = req.body;
+    const {
+      theatre_id,
+      theatre_name,
+      theatre_district,
+      theatre_capacity,
+      movie_id,
+      movie_name,
+      duration,
+      username,
+      genre_list,
+      predecessors,
+      session_id,
+      time_slot,
+      date,
+    } = req.body;
 
-
-    
-    console.log(theatre_id, movie_id, session_id,time_slot,date);
-    if (!(theatre_id&&movie_id&&session_id&&time_slot&&date)) {
-      next(
-        new EmptyFieldError("Please provide the necessary fields.")
-      );
+    console.log(theatre_id, movie_id, session_id, time_slot, date);
+    if (!(theatre_id && movie_id && session_id && time_slot && date)) {
+      next(new EmptyFieldError("Please provide the necessary fields."));
       return;
     }
-
 
     const movieIDString = `SELECT movie_id FROM movies WHERE movie_id = ?;
       `;
     const movieIDResponse = await query(movieIDString, [movie_id]);
-    
+
     const theatreIDString = `SELECT theatre_id FROM theatres WHERE theatre_id = ?;
     `;
     const theatreIDResponse = await query(theatreIDString, [theatre_id]);
 
-    if (movieIDResponse.length==0) {
-      if (!(movie_name&&duration&&username&&genre_list)) {
-        next(
-          new EmptyFieldError("Please provide the fields of the movie.")
-        );
+    if (movieIDResponse.length == 0) {
+      if (!(movie_name && duration && username && genre_list)) {
+        next(new EmptyFieldError("Please provide the fields of the movie."));
         return;
-      }
-      else {
-        const movieInsertString = `INSERT INTO movies(movie_id,movie_name,duration,director,average_rating) values (?,?,?,?,0);
+      } else {
+        const movieInsertString = `INSERT INTO movies(movie_id,movie_name,duration,director) values (?,?,?,?);
       `;
-        await query(movieInsertString, [movie_id,movie_name,duration,username]);
-
+        await query(movieInsertString, [
+          movie_id,
+          movie_name,
+          duration,
+          username,
+        ]);
 
         const genre_array = genre_list.split(",");
 
@@ -170,28 +169,35 @@ export async function addSession(req, res, next) {
       }
     }
 
-    if (theatreIDResponse.length==0) {
-      if (!(theatre_name&&theatre_district&&theatre_capacity)) {
-        next(
-          new EmptyFieldError("Please provide the fields of the theatre.")
-        );
+    if (theatreIDResponse.length == 0) {
+      if (!(theatre_name && theatre_district && theatre_capacity)) {
+        next(new EmptyFieldError("Please provide the fields of the theatre."));
         return;
-      }
-      else {
+      } else {
         const theatreInsertString = `INSERT INTO theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) values (?,?,?,?);
       `;
-        await query(theatreInsertString, [theatre_id,theatre_name,theatre_district,theatre_capacity]);
+        await query(theatreInsertString, [
+          theatre_id,
+          theatre_name,
+          theatre_district,
+          theatre_capacity,
+        ]);
       }
     }
 
     const movieSessionString = `INSERT INTO movie_sessions(session_id,movie_id,theatre_id,time_slot,date) values (?,?,?,?,?);
       `;
-    const movieSessionResponse = await query(movieSessionString, [session_id,movie_id,theatre_id,time_slot,date]);
+    const movieSessionResponse = await query(movieSessionString, [
+      session_id,
+      movie_id,
+      theatre_id,
+      time_slot,
+      date,
+    ]);
 
     res
       .status(201)
       .json(successfulResponse("Movie session is added successfully"));
-
   } catch (error) {
     console.log(error);
     next(error);
@@ -288,18 +294,14 @@ export async function updateMovieName(req, res, next) {
     }
 
     let queryString =
-      "SELECT COUNT(*) as Count FROM Movies WHERE director=? AND movie_name = ? AND movie_id = ?";
+      "SELECT COUNT(*) as Count FROM Movies WHERE director=? AND movie_id = ?";
 
-    let queryResponse = await query(queryString, [
-      username,
-      movie_name,
-      movie_id,
-    ]);
+    let queryResponse = await query(queryString, [username, movie_id]);
 
     if (queryResponse[0].Count == 0) {
       next(
         new BadRequest(
-          "Either you do not direct this film or there is no film with this id and name!"
+          "Either you do not direct this film or there is no film with this id!"
         )
       );
       return;

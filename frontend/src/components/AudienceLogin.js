@@ -22,7 +22,7 @@ const AudienceLogin = () => {
       localStorage.setItem("audience-username", username);
       navigate("/audience-main");
     } catch (error) {
-      setError(error.response.message);
+      setError(error.response.data.message);
     }
   };
 
