@@ -27,6 +27,7 @@ import ViewMoviesOfDirector from "./components/ViewMoviesOfDirector";
 import AddPredecessors from "./components/AddPredecessors";
 import UpdateMovieName from "./components/UpdateMovieName";
 import DirectorMain from "./components/DirectorMain";
+import AddSessions from "./components/AddSession";
 
 const router = createBrowserRouter([
   {
@@ -120,6 +121,10 @@ const router = createBrowserRouter([
   {
     path: "director-main",
     element: <DirectorMain />,
+  },
+  {
+    path: "add-session",
+    element: <AddSessions />,
   },
 ]);
 

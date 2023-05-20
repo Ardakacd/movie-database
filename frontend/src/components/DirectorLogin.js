@@ -18,10 +18,12 @@ const AudienceLogin = () => {
         "http://localhost:3001/api/v1/directors/login",
         { username, password }
       );
+      console.log(response);
       setSuccess(response.data.message);
       localStorage.setItem("director-username", username);
       navigate("/director-main");
     } catch (error) {
+      console.log(error);
       setError(error.response.message);
     }
   };
