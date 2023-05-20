@@ -74,8 +74,7 @@ time_slot ENUM('1','2','3','4') NOT NULL,\
 date DATE,\
 PRIMARY KEY(session_id),\
 FOREIGN KEY(movie_id) REFERENCES Movies(movie_id) ON DELETE CASCADE ON UPDATE CASCADE,\
-FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPDATE CASCADE,\
-UNIQUE(session_id,theatre_id));";
+FOREIGN KEY(theatre_id) REFERENCES Theatres(theatre_id) ON DELETE CASCADE ON UPDATE CASCADE;";
     const bought =
       "CREATE TABLE Bought(\
 username VARCHAR(30) NOT NULL,\
