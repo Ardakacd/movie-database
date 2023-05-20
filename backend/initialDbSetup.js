@@ -201,6 +201,38 @@ END;";
      (new.username,new.password,new.name,new.surname);\
  END;";
 
+  const change_average_rate_when_audience_deleted =
+    "CREATE TRIGGER Change_Rating\
+BEFORE DELETE\
+ON Audience\
+FOR EACH ROW\
+BEGIN\
+	DECLARE finished INTEGER DEFAULT 0;\
+    DECLARE cur_movie_id INTEGER;\
+    DECLARE sum_movie_rating FLOAT;\
+    DECLARE rating_count INTEGER;\
+    DECLARE curr_rating FLOAT;\
+	DECLARE curs_rating CURSOR FOR SELECT movie_id FROM Ratings where username = old.username;\
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;\
+    OPEN curs_rating;\
+     change_rating: LOOP\
+		FETCH curs_rating INTO cur_movie_id;\
+		IF finished = 1 THEN \
+			LEAVE change_rating;\
+		END IF;\
+        SELECT R.rating INTO curr_rating FROM Ratings AS R WHERE R.movie_id = cur_movie_id AND username = old.username;\
+        SELECT SUM(R.rating) INTO sum_movie_rating FROM Ratings AS R WHERE R.movie_id = cur_movie_id;\
+        SELECT COUNT(R.rating) INTO rating_count FROM Ratings AS R WHERE R.movie_id = cur_movie_id;\
+        IF rating_count = 1 THEN \
+			UPDATE Movies SET average_rating = null WHERE movie_id = cur_movie_id;\
+		END IF;\
+		IF rating_count >1 THEN \
+			UPDATE Movies SET average_rating = ((sum_movie_rating - curr_rating) / (rating_count-1)) WHERE movie_id = cur_movie_id;\
+		END IF;\
+	END LOOP change_rating;\
+    CLOSE curs_rating;\
+END;";
+
   const is_eligible_to_rate =
     "CREATE TRIGGER Is_Eligible_To_Rate \
  BEFORE INSERT \
@@ -292,7 +324,8 @@ END;";
     change_average_rating +
     slot_availability +
     bought_availability +
-    is_eligible_to_add_director;
+    is_eligible_to_add_director +
+    change_average_rate_when_audience_deleted;
   try {
     console.log(queryStr);
     const res = await query(queryStr);
