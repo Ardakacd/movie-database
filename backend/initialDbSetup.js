@@ -270,8 +270,8 @@ END;";
     DECLARE date_of_the_movie DATE;\
     DECLARE slot_of_the_movie INT;\
     SELECT COUNT(*) INTO current_capacity FROM Bought WHERE session_id = new.session_id;\
-    SELECT S.date INTO date_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id;\
-    SELECT S.time_slot INTO slot_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id;\
+    SELECT S.date INTO date_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id LIMIT 1;\
+    SELECT S.time_slot INTO slot_of_the_movie FROM Movie_Sessions AS S INNER JOIN Bought AS B ON S.session_id = new.session_id LIMIT 1;\
     SELECT DISTINCT T.theatre_capacity INTO theatre_capacity FROM Bought as B INNER JOIN Movie_Sessions AS S ON B.session_id = S.session_id INNER JOIN \
     Theatres AS T ON T.theatre_id = S.theatre_id;\
     SELECT S.movie_id INTO id_of_the_movie FROM Movie_Sessions AS S WHERE S.session_id = new.session_id;\

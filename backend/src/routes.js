@@ -25,6 +25,7 @@ import {
   viewAudiences,
   updateMovieName,
   viewMoviesOfDirector,
+  addSession
 } from "./director/controller/directorController.js";
 
 const db_managers = "/database_managers";
@@ -68,6 +69,8 @@ router.get(`${directors}/view-movies`, viewMoviesOfDirector);
 router.post(`${directors}/login`, userLogin);
 
 router.post(`${directors}/add-predecessors`, addPredecessors);
+
+router.post(`${directors}/add-session`, addSession);
 
 router.put(`${directors}/update-movie-name`, updateMovieName);
 

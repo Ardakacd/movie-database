@@ -97,6 +97,81 @@ export async function addPredecessors(req, res, next) {
   }
 }
 
+export async function addSession(req, res, next) {
+  try {
+    const { theatre_id,
+            theatre_name,
+            theatre_district,
+            theatre_capacity,
+              movie_id,
+              movie_name,
+              duration,
+              director,
+                session_id,
+                time_slot,
+                date } = req.body;
+
+
+    
+    console.log(theatre_id, movie_id, session_id,time_slot,date);
+    if (!(theatre_id&&movie_id&&session_id&&time_slot&&date)) {
+      next(
+        new EmptyFieldError("Please provide the necessary fields.")
+      );
+      return;
+    }
+
+
+    const movieIDString = `SELECT movie_id FROM movies WHERE movie_id = ?;
+      `;
+    const movieIDResponse = await query(movieIDString, [movie_id]);
+    
+    const theatreIDString = `SELECT theatre_id FROM theatres WHERE theatre_id = ?;
+    `;
+    const theatreIDResponse = await query(theatreIDString, [theatre_id]);
+
+    if (movieIDResponse.length==0) {
+      if (!(movie_name&&duration&&director)) {
+        next(
+          new EmptyFieldError("Please provide the fields of the movie.")
+        );
+        return;
+      }
+      else {
+        const movieInsertString = `INSERT INTO movies(movie_id,movie_name,duration,director,average_rating) values (?,?,?,?,0);
+      `;
+        await query(movieInsertString, [movie_id,movie_name,duration,director]);
+      }
+    }
+
+    if (theatreIDResponse.length==0) {
+      if (!(theatre_name&&theatre_district&&theatre_capacity)) {
+        next(
+          new EmptyFieldError("Please provide the fields of the theatre.")
+        );
+        return;
+      }
+      else {
+        const theatreInsertString = `INSERT INTO theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) values (?,?,?,?);
+      `;
+        await query(theatreInsertString, [theatre_id,theatre_name,theatre_district,theatre_capacity]);
+      }
+    }
+
+    const movieSessionString = `INSERT INTO movie_sessions(session_id,movie_id,theatre_id,time_slot,date) values (?,?,?,?,?);
+      `;
+    const movieSessionResponse = await query(movieSessionString, [session_id,movie_id,theatre_id,time_slot,date]);
+    
+    res
+      .status(201)
+      .json(successfulResponse("Movie session is added successfully"));
+
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}
+
 export async function viewAudiences(req, res, next) {
   try {
     const { id } = req.query;
