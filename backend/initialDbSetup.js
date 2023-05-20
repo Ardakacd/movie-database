@@ -190,7 +190,7 @@ END;";
  END;";
 
   const change_average_rate_when_audience_deleted =
-    "CREATE TRIGGER Change_Rating\
+    "CREATE TRIGGER Change_Average_Rating_When_Audience_Deleted\
  BEFORE DELETE\
  ON Audience\
  FOR EACH ROW\

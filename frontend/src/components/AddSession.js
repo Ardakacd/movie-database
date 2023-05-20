@@ -10,7 +10,6 @@ const AddSessions = () => {
   const [movie_name, setMovieName] = useState("");
   const [duration, setDuration] = useState("");
   const [genre_list, setGenreList] = useState("");
-  const [director, setDirector] = useState("");
   const [platform_id, setPlatformId] = useState("");
   const [predeccessors, setPredecessors] = useState("");
   const [theatre_id, setTheatreId] = useState("");
@@ -28,12 +27,26 @@ const AddSessions = () => {
       if (!username) {
         navigate("/director-login");
       }
-      //   const response = await axios.post(
-      //     "http://localhost:3001/api/v1/audience/buy-ticket",
-      //     { username, sessionId }
-      //   );
+      const response = await axios.post(
+        "http://localhost:3001/api/v1/audience/add-session",
+        {
+          session_id,
+          movie_name,
+          duration,
+          genre_list,
+          platform_id,
+          predeccessors,
+          theatre_id,
+          theatre_name,
+          theatre_district,
+          theatre_capacity,
+          time_slot,
+          date,
+          username,
+        }
+      );
       setError("");
-      //setSuccess(response.data.message);
+      setSuccess(response.data.message);
     } catch (error) {
       setSuccess("");
       setError(error.response.data.message);
@@ -85,14 +98,6 @@ const AddSessions = () => {
           margin="normal"
           value={genre_list}
           onChange={(event) => setGenreList(event.target.value)}
-        />
-        <TextField
-          id="director"
-          label="Director"
-          variant="standard"
-          margin="normal"
-          value={director}
-          onChange={(event) => setDirector(event.target.value)}
         />
         <TextField
           id="platform_id"
