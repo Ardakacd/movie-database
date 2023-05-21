@@ -25,10 +25,14 @@ import {
   viewAudiences,
   updateMovieName,
   viewMoviesOfDirector,
-  addSession
+  addSession,
+  addTheatre,
+  addMovie
 } from "./director/controller/directorController.js";
 
 const db_managers = "/database_managers";
+
+const directors = "/directors";
 
 const audience = "/audience";
 
@@ -50,6 +54,8 @@ router.get(`${db_managers}/view-director-movies/:username`, viewDirectorMovies);
 
 router.get(`${db_managers}/view-movie-detail/:movieId`, viewMovieDetail);
 
+
+
 router.post(`${audience}/login`, audienceLogin);
 
 router.get(`${audience}/list-movies`, listMovies);
@@ -58,7 +64,8 @@ router.post(`${audience}/buy-ticket`, buyMovieTicket);
 
 router.post(`${audience}/list-tickets`, listTickets);
 
-const directors = "/directors";
+
+
 
 router.get(`${directors}/theatres`, viewAvailableTheatres);
 
@@ -71,6 +78,10 @@ router.post(`${directors}/login`, userLogin);
 router.post(`${directors}/add-predecessors`, addPredecessors);
 
 router.post(`${directors}/add-session`, addSession);
+
+router.post(`${directors}/add-theatre`, addTheatre);
+
+router.post(`${directors}/add-movie`, addMovie);
 
 router.put(`${directors}/update-movie-name`, updateMovieName);
 
