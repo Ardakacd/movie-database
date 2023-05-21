@@ -145,6 +145,20 @@ export async function addMovie(req, res, next) {
       return;
     }
 
+    const genre_array = genre_list.split(",");
+    const genreCheck = `SELECT COUNT(*) AS Count FROM Genres WHERE genre_id = ?;`;
+
+    for (let i = 0; i < genre_array.length; i++) {
+      const response = await query(genreCheck, [genre_array[i].trim()]);
+
+      if (response[0].Count == 0) {
+        next(
+          new BadRequest("There is not genre with this id: " + genre_array[i])
+        );
+        return;
+      }
+    }
+
     const movieInsertString = `INSERT INTO movies(movie_id,movie_name,duration,director) values (?,?,?,?);
       `;
     await query(movieInsertString, [
@@ -153,8 +167,6 @@ export async function addMovie(req, res, next) {
       duration,
       username.trim(),
     ]);
-
-    const genre_array = genre_list.split(",");
 
     const queryString = `INSERT INTO type_of (movie_id, genre_id)
           VALUES (?, ?);

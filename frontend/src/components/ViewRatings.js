@@ -57,7 +57,8 @@ const ViewRatings = () => {
         </Button>
         {Array.isArray(ratings) && ratings.length === 0 ? (
           <p style={{ color: "purple" }}>
-            This audience does not rate any film!
+            This audience does not rate any film(also check whether this
+            audience exists)
           </p>
         ) : (
           Array.isArray(ratings) && (

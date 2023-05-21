@@ -28,6 +28,8 @@ import AddPredecessors from "./components/AddPredecessors";
 import UpdateMovieName from "./components/UpdateMovieName";
 import DirectorMain from "./components/DirectorMain";
 import AddSessions from "./components/AddSession";
+import AddMovie from "./components/AddMovie";
+import AddTheatre from "./components/AddTheatre";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +127,14 @@ const router = createBrowserRouter([
   {
     path: "add-session",
     element: <AddSessions />,
+  },
+  {
+    path: "add-movie",
+    element: <AddMovie />,
+  },
+  {
+    path: "add-theatre",
+    element: <AddTheatre />,
   },
 ]);
 

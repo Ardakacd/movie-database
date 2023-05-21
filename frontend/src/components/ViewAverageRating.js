@@ -15,6 +15,10 @@ const ViewAverageRating = () => {
         "http://localhost:3001/api/v1/database_managers/view-movie-detail/" +
           movieId
       );
+      if (!response.data.movie[0]) {
+        setError("Movie Not Found");
+        return;
+      }
       setMovie(response.data.movie[0]);
       setError("");
       setSuccess(response.data.message);

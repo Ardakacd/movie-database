@@ -42,6 +42,12 @@ const DirectorMain = () => {
       <Link to="/view-movies-director" style={{ marginBottom: "10px" }}>
         View Movies Director
       </Link>
+      <Link to="/add-movie" style={{ marginBottom: "10px" }}>
+        Add Movie
+      </Link>
+      <Link to="/add-theatre" style={{ marginBottom: "10px" }}>
+        Add Theatre
+      </Link>
       <Link to="/add-session" style={{ marginBottom: "10px" }}>
         Add Session
       </Link>

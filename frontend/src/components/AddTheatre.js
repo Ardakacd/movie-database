@@ -18,6 +18,10 @@ const AddTheatre = () => {
       if (!username) {
         navigate("/director-login");
       }
+      if (theatre_capacity < 0) {
+        setError("capacity cannot be negative");
+        return;
+      }
       const response = await axios.post(
         "http://localhost:3001/api/v1/directors/add-theatre",
         {
