@@ -4,12 +4,11 @@ import "../index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AddSessions = () => {
-  const [session_id, setSessionId] = useState("");
-  const [movie_id, setMovieId] = useState("");
+const AddTheatre = () => {
   const [theatre_id, setTheatreId] = useState("");
-  const [time_slot, setTimeSlot] = useState("");
-  const [date, setDate] = useState("");
+  const [theatre_name, setTheatreName] = useState("");
+  const [theatre_capacity, setTheatreCapacity] = useState("");
+  const [theatre_district, setTheatreDistrict] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -20,14 +19,12 @@ const AddSessions = () => {
         navigate("/director-login");
       }
       const response = await axios.post(
-        "http://localhost:3001/api/v1/directors/add-session",
+        "http://localhost:3001/api/v1/directors/add-theatre",
         {
-          session_id,
-          movie_id,
           theatre_id,
-          time_slot,
-          date,
-          username,
+          theatre_name,
+          theatre_district,
+          theatre_capacity,
         }
       );
       setError("");
@@ -41,25 +38,10 @@ const AddSessions = () => {
   return (
     <div className="outer-container">
       <div className="inner-container">
-        <h2 style={{ color: "orange" }}>Add Movie Session </h2>
+        <h2 style={{ color: "orange" }}>Add Theatre</h2>
         {success && <p style={{ color: "green" }}>{success}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <TextField
-          id="session_id"
-          label="Session Id"
-          variant="standard"
-          margin="normal"
-          value={session_id}
-          onChange={(event) => setSessionId(event.target.value)}
-        />
-        <TextField
-          id="movie_id"
-          label="Movie Id"
-          variant="standard"
-          margin="normal"
-          value={movie_id}
-          onChange={(event) => setMovieId(event.target.value)}
-        />
+
         <TextField
           id="theatre_id"
           label="Theatre Id"
@@ -69,34 +51,39 @@ const AddSessions = () => {
           onChange={(event) => setTheatreId(event.target.value)}
         />
         <TextField
-          id="time_slot"
-          label="Time Slot"
+          id="theatre_name"
+          label="Theatre Name"
           variant="standard"
           margin="normal"
-          value={time_slot}
-          onChange={(event) => setTimeSlot(event.target.value)}
+          value={theatre_name}
+          onChange={(event) => setTheatreName(event.target.value)}
         />
-        <p style={{ color: "gray" }}>Please enter 1,2,3 or 4</p>
         <TextField
-          id="date"
-          label="Date"
+          id="theatre_capacity"
+          label="Theatre Capacity"
           variant="standard"
           margin="normal"
-          value={date}
-          onChange={(event) => setDate(event.target.value)}
+          value={theatre_capacity}
+          onChange={(event) => setTheatreCapacity(event.target.value)}
         />
-        <p style={{ color: "gray" }}>For example 2023-12-31</p>
-
+        <TextField
+          id="theatre_district"
+          label="Theatre District"
+          variant="standard"
+          margin="normal"
+          value={theatre_district}
+          onChange={(event) => setTheatreDistrict(event.target.value)}
+        />
         <Button
           variant="contained"
           style={{ marginTop: "20px" }}
           onClick={madeRequest}
         >
-          Add Session
+          Add Theatre
         </Button>
       </div>
     </div>
   );
 };
 
-export default AddSessions;
+export default AddTheatre;

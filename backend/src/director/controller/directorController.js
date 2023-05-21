@@ -99,32 +99,28 @@ export async function addPredecessors(req, res, next) {
 
 export async function addTheatre(req, res, next) {
   try {
-    const {
-      theatre_id,
-      theatre_name,
-      theatre_district,
-      theatre_capacity
-    } = req.body;
+    const { theatre_id, theatre_name, theatre_district, theatre_capacity } =
+      req.body;
 
     if (!(theatre_id && theatre_name && theatre_district && theatre_capacity)) {
       next(
-        new EmptyFieldError("Please provide the necessary fields of the theatre.")
+        new EmptyFieldError(
+          "Please provide the necessary fields of the theatre."
+        )
       );
       return;
     }
-    
+
     const theatreInsertString = `INSERT INTO theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) values (?,?,?,?);
       `;
-        await query(theatreInsertString, [
-          theatre_id,
-          theatre_name.trim(),
-          theatre_district.trim(),
-          theatre_capacity,
-        ]);
+    await query(theatreInsertString, [
+      theatre_id,
+      theatre_name.trim(),
+      theatre_district.trim(),
+      theatre_capacity,
+    ]);
 
-    res
-      .status(201)
-      .json(successfulResponse("Theatre is added successfully"));
+    res.status(201).json(successfulResponse("Theatre is added successfully"));
   } catch (error) {
     console.log(error);
     next(error);
@@ -139,7 +135,7 @@ export async function addMovie(req, res, next) {
       duration,
       username,
       genre_list,
-      predecessors
+      predecessors,
     } = req.body;
 
     if (!(movie_id && movie_name && duration && username && genre_list)) {
@@ -151,22 +147,22 @@ export async function addMovie(req, res, next) {
 
     const movieInsertString = `INSERT INTO movies(movie_id,movie_name,duration,director) values (?,?,?,?);
       `;
-        await query(movieInsertString, [
-          movie_id,
-          movie_name.trim(),
-          duration,
-          username.trim(),
-        ]);
+    await query(movieInsertString, [
+      movie_id,
+      movie_name.trim(),
+      duration,
+      username.trim(),
+    ]);
 
-        const genre_array = genre_list.split(",");
+    const genre_array = genre_list.split(",");
 
-        const queryString = `INSERT INTO type_of (movie_id, genre_id)
+    const queryString = `INSERT INTO type_of (movie_id, genre_id)
           VALUES (?, ?);
           `;
 
-        for (let i = 0; i < genre_array.length; i++) {
-          await query(queryString, [movie_id, genre_array[i].trim()]);
-        }
+    for (let i = 0; i < genre_array.length; i++) {
+      await query(queryString, [movie_id, genre_array[i].trim()]);
+    }
 
     if (predecessors) {
       const pre_ids_array = predecessors.split(",");
@@ -181,9 +177,7 @@ export async function addMovie(req, res, next) {
       }
     }
 
-    res
-      .status(201)
-      .json(successfulResponse("Movie is added successfully"));
+    res.status(201).json(successfulResponse("Movie is added successfully"));
   } catch (error) {
     console.log(error);
     next(error);
@@ -192,18 +186,18 @@ export async function addMovie(req, res, next) {
 
 export async function addSession(req, res, next) {
   try {
-    const {
-      username,
-      theatre_id,
-      movie_id,
-      session_id,
-      time_slot,
-      date,
-    } = req.body;
+    const { username, theatre_id, movie_id, session_id, time_slot, date } =
+      req.body;
 
     console.log(theatre_id, movie_id, session_id, time_slot, date);
-    if (!(theatre_id && movie_id && session_id && time_slot && date && username)) {
-      next(new EmptyFieldError("Please provide the necessary fields of the movie session."));
+    if (
+      !(theatre_id && movie_id && session_id && time_slot && date && username)
+    ) {
+      next(
+        new EmptyFieldError(
+          "Please provide the necessary fields of the movie session."
+        )
+      );
       return;
     }
 
@@ -217,14 +211,13 @@ export async function addSession(req, res, next) {
 
     const theatreIDResponse = await query(theatreIDString, [theatre_id]);
 
-
     if (movieIDResponse.length == 0) {
       next(new EmptyFieldError(`There is no movie with id ${movie_id}.`));
       return;
-    }  
+    }
 
     if (movieIDResponse[0].director !== username.trim()) {
-      next(new Unauthorized());
+      next(new Unauthorized("You are not the director of this movie!"));
       return;
     }
 
