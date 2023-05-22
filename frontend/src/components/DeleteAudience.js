@@ -11,6 +11,10 @@ const DeleteAudience = () => {
   const madeRequest = async () => {
     try {
       console.log(username);
+      if (!username) {
+        setError("Please provide a username");
+        return;
+      }
       const response = await axios.delete(
         "http://localhost:3001/api/v1/database_managers/delete-user/" +
           username,

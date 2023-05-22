@@ -11,6 +11,10 @@ const ViewAverageRating = () => {
 
   const madeRequest = async () => {
     try {
+      if (!movieId) {
+        setError("Please provide a movie id");
+        return;
+      }
       const response = await axios.get(
         "http://localhost:3001/api/v1/database_managers/view-movie-detail/" +
           movieId

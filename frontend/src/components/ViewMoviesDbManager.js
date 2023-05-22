@@ -20,6 +20,10 @@ const ViewMoviesDbManager = () => {
 
   const madeRequest = async () => {
     try {
+      if (!username) {
+        setError("Please provide a username");
+        return;
+      }
       const response = await axios.get(
         "http://localhost:3001/api/v1/database_managers/view-director-movies/" +
           username
