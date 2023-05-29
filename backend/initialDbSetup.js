@@ -141,17 +141,86 @@ export async function seedData() {
       "INSERT INTO Database_Managers(username,password) VALUES('manager1','managerpass1');\
 INSERT INTO Database_Managers(username,password) VALUES('manager2','managerpass2');\
 INSERT INTO Database_Managers(username,password) VALUES('manager35','managerpass35');\
+INSERT INTO Audience(username,password,name,surname) VALUES('steven.jobs','apple123','Steven','Jobs');\
+INSERT INTO Audience(username,password,name,surname) VALUES('steve.wozniak','pass4321','Ryan','Andrews');\
+INSERT INTO Audience(username,password,name,surname) VALUES('arzucan.ozgur','deneme123','Arzucan','Ozgur');\
+INSERT INTO Audience(username,password,name,surname) VALUES('egemen.isguder','deneme124','Egemen','Isguder');\
+INSERT INTO Audience(username,password,name,surname) VALUES('busra.oguzoglu','deneme125','Busra','Oguzoglu');\
+INSERT INTO Audience(username,password,name,surname) VALUES('minion.lover','bello387','Felonius','Gru');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10130 ,'IMDB');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10131 ,'Letterboxd');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10132 ,'FilmIzle');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10133 ,'Filmora');\
+INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10134 ,'BollywoodMDB');\
+INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES('he.gongmin','passwordpass','He','Gongmin','Turkish',10130);\
+INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES('carm.galian','madrid9897','Carmelita','Galiano','Turkish',10131);\
+INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES('kron.helene','helenepass','Helene','Kron','French',10130);\
+INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES('peter.weir','peter_weir879','Peter','Weir','Spanish',10131);\
+INSERT INTO Directors(username,password,name,surname,nationality,platform_id) VALUES('kyle.balda','mynameiskyle9','Kyle','Balda','German',10132);\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80001,'Animation');\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80002,'Comedy');\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80003,'Adventure');\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80004,'Real Story');\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80005,'Thriller');\
 INSERT INTO Genres(genre_id,genre_name) VALUES(80006,'Drama');\
-INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10130 ,'IMDB');\
-INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10131 ,'Letterboxd');\
-INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10132 ,'FilmIzle');\
-INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10133 ,'Filmora');\
-INSERT INTO Rating_Platform(platform_id,platform_name) VALUES(10134 ,'BollywoodMDB');";
+INSERT INTO Movies(movie_id,movie_name,duration,director,average_rating) VALUES(20001,'Despicable Me',2,'kyle.balda',5);\
+INSERT INTO Movies(movie_id,movie_name,duration,director) VALUES(20002,'Catch Me If You Can',2,'he.gongmin');\
+INSERT INTO Movies(movie_id,movie_name,duration,director) VALUES(20003,'The Bone Collector',2,'carm.galian');\
+INSERT INTO Movies(movie_id,movie_name,duration,director,average_rating) VALUES(20004,'Eagle Eye',2,'kron.helene',5);\
+INSERT INTO Movies(movie_id,movie_name,duration,director,average_rating) VALUES(20005,'Minions: The Rise Of Gru',1,'kyle.balda',5);\
+INSERT INTO Movies(movie_id,movie_name,duration,director,average_rating) VALUES(20006,'The Minions',1,'kyle.balda',5);\
+INSERT INTO Movies(movie_id,movie_name,duration,director,average_rating) VALUES(20007,'The Truman Show',3,'peter.weir',5);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20001,80001);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20001,80002);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20002,80003);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20002,80004);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20003,80005);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20004,80003);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20005,80001);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20005,80002);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20006,80001);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20006,80002);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20007,80002);\
+INSERT INTO Type_Of(movie_id,genre_id) VALUES(20007,80006);\
+INSERT INTO Predecessor(successor_id,predecessor_id) VALUES(20006,20001);\
+INSERT INTO Predecessor(successor_id,predecessor_id) VALUES(20005,20001);\
+INSERT INTO Predecessor(successor_id,predecessor_id) VALUES(20005,20006);\
+INSERT INTO Theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) VALUES(40001,'Sisli_1','Sisli',300);\
+INSERT INTO Theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) VALUES(40002,'Sisli_2','Sisli',200);\
+INSERT INTO Theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) VALUES(40003,'Besiktas1','Besiktas',100);\
+INSERT INTO Theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) VALUES(40004,'Besiktas2','Besiktas',100);\
+INSERT INTO Theatres(theatre_id,theatre_name,theatre_district,theatre_capacity) VALUES(40005,'Besiktas3','Besiktas',500);\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50000,20006,40005,3,'2023-03-15');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50001,20001,40001,1,'2023-03-15');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50002,20001,40001,3,'2023-03-15');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50003,20001,40002,1,'2023-03-15');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50004,20002,40002,3,'2023-03-15');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50005,20003,40003,1,'2023-03-16');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50006,20004,40003,3,'2023-03-16');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50007,20005,40004,1,'2023-03-16');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50008,20006,40004,3,'2023-03-16');\
+INSERT INTO Movie_Sessions(session_id,movie_id,theatre_id,time_slot,date) VALUES(50009,20007,40005,1,'2023-03-16');\
+INSERT INTO Bought(username,session_id) VALUES('steven.jobs',50001);\
+INSERT INTO Bought(username,session_id) VALUES('steve.wozniak',50004);\
+INSERT INTO Bought(username,session_id) VALUES('steve.wozniak',50005);\
+INSERT INTO Bought(username,session_id) VALUES('arzucan.ozgur',50006);\
+INSERT INTO Bought(username,session_id) VALUES('egemen.isguder',50001);\
+INSERT INTO Bought(username,session_id) VALUES('egemen.isguder',50000);\
+INSERT INTO Bought(username,session_id) VALUES('egemen.isguder',50008);\
+INSERT INTO Bought(username,session_id) VALUES('egemen.isguder',50004);\
+INSERT INTO Bought(username,session_id) VALUES('egemen.isguder',50007);\
+INSERT INTO Bought(username,session_id) VALUES('busra.oguzoglu',50009);\
+INSERT INTO Subscribed(username,platform_id) VALUES('steven.jobs',10130);\
+INSERT INTO Subscribed(username,platform_id) VALUES('steven.jobs',10131);\
+INSERT INTO Subscribed(username,platform_id) VALUES('steve.wozniak',10131);\
+INSERT INTO Subscribed(username,platform_id) VALUES('arzucan.ozgur',10130);\
+INSERT INTO Subscribed(username,platform_id) VALUES('egemen.isguder',10132);\
+INSERT INTO Subscribed(username,platform_id) VALUES('busra.oguzoglu',10131);\
+INSERT INTO Ratings(username,movie_id,rating) VALUES('egemen.isguder',20001,5);\
+INSERT INTO Ratings(username,movie_id,rating) VALUES('egemen.isguder',20005,5);\
+INSERT INTO Ratings(username,movie_id,rating) VALUES('egemen.isguder',20006,5);\
+INSERT INTO Ratings(username,movie_id,rating) VALUES('arzucan.ozgur',20004,5);\
+INSERT INTO Ratings(username,movie_id,rating) VALUES('busra.oguzoglu',20007,5);";
     const response = await query(queryText);
     console.log(response);
   } catch (error) {

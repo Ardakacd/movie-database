@@ -1,5 +1,5 @@
 import { query } from "../../../databaseConnection.js";
-import EmptyFieldError from "../../shared/errors/EmptyField/EmptyField.js"; 
+import EmptyFieldError from "../../shared/errors/EmptyField/EmptyField.js";
 import AudienceNotFound from "../../shared/errors/NotFound/AudienceNotFound.js";
 import DatabaseManagerNotFound from "../../shared/errors/NotFound/DatabaseManagerNotFound.js";
 import DirectorNotFound from "../../shared/errors/NotFound/DirectorNotFound.js";
@@ -167,7 +167,7 @@ export async function viewRatings(req, res, next) {
       next(new EmptyFieldError("Please provide a username"));
       return;
     }
-    const queryString = `SELECT R.movie_id,M.movie_name,R.rating FROM Ratings as R INNER JOIN Movies as M WHERE R.username = ?`;
+    const queryString = `SELECT R.movie_id,M.movie_name,R.rating FROM Ratings as R INNER JOIN Movies as M ON M.movie_id = R.movie_id WHERE R.username = ?`;
 
     const queryResponse = await query(queryString, [username]);
 

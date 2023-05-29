@@ -117,12 +117,16 @@ export async function listTickets(req, res, next) {
         if (!rating || (Array.isArray(rating) && rating.length == 0)) {
           rating = null;
         }
-        ticket = { ...ticket, rating };
+        console.log(rating);
+        if (rating == null) {
+          ticket = { ...ticket, rating };
+        } else {
+          ticket = { ...ticket, rating: rating[0].rating };
+        }
+
         return ticket;
       })
     );
-
-    console.log(tickets);
 
     res.status(201).json({
       ...successfulResponse(`All the tickets are listed successfully`),
