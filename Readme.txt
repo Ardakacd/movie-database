@@ -1,3 +1,5 @@
+* Database project for our course CMPE 321. Made by Arda Kabadayi and Melih Gezer.
+
 * For this project we used mysql.
 
 * In order to start up the project first you need to create a schema called movie_db from mysql workbench.(Just create a schema tables, triggers and seed data will be created by the backend)
